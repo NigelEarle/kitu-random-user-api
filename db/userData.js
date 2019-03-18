@@ -1,2 +1,2 @@
-module.exports.userData = ['Aloha'];
+module.exports.userData = [];
 
