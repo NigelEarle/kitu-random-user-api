@@ -1,17 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db/userData');
 const axios = require('axios');
-
-const makeRequestArr = (numOfCalls, urlEndpoint) => {
-  return [...new Array(numOfCalls)].map(() => {
-    return axios.get(urlEndpoint)
-  })
-}
+const db = require('../db/userData');
+const makeDuplicateRequestArray = require('../util/helper');
+const { checkEmptyObject , checkEmptyField, checkValidEmail, checkValidCellNum } = require('../util/validations');
 
 router.get('/', async (req, res) => {
   try {
-    const [...response] = await axios.all(makeRequestArr(10, 'https://randomuser.me/api'));
+    const [...response] = await axios.all(makeDuplicateRequestArray(1, 'https://randomuser.me/api'));
     [...response].map((data) => {
       const { gender, name, location, email, cell } = data.data.results[0];
       const userObj = {
@@ -42,13 +38,13 @@ router.get('/firstname/:firstname', (req, res) => {
   }
 })
 
-router.post('/', (req, res) => {
+router.post('/', checkEmptyObject, checkEmptyField, checkValidEmail, checkValidCellNum, (req, res) => {
   try {
     db.userData.push(req.body);
     return res.status(201).send({message: 'User successfully created!'});
   } catch(err) {
     console.log('err', err);
-    return res.status(404).send('title required');
+    return res.status(404).send({message: 'Error: Unable to create User'});
   }
 })
 
