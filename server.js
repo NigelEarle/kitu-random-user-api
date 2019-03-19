@@ -9,5 +9,5 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/users', userDataRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
+  console.log(`Server up and running on port ${PORT} 🌎`);
 })
