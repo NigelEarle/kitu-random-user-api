@@ -1,4 +1,5 @@
 # Random User API
+Coding Exercise
 
 ## Description
 
