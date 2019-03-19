@@ -7,7 +7,7 @@ const { checkEmptyObject , checkEmptyField, checkValidEmail, checkValidCellNum }
 
 router.get('/', async (req, res) => {
   try {
-    const [...response] = await axios.all(makeDuplicateRequestArray(1, 'https://randomuser.me/api'));
+    const [...response] = await axios.all(makeDuplicateRequestArray(10, 'https://randomuser.me/api'));
     [...response].map((data) => {
       const { gender, name, location, email, cell } = data.data.results[0];
       const userObj = {
