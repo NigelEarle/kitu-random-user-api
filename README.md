@@ -43,9 +43,9 @@ $ npm test
   ##### `/routes`
   Holds all GET and POST endpoints
 
-  ##### `test`
+  ##### `/test`
   Unit testing for all API routes
 
-  ##### `util`
+  ##### `/util`
   Function that creates number of GET requests and validations
 
