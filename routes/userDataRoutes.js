@@ -11,7 +11,7 @@ const makeRequestArr = (numOfCalls, urlEndpoint) => {
 
 router.get('/', async (req, res) => {
   try {
-    const [...response] = await axios.all(makeRequestArr(1, 'https://randomuser.me/api'));
+    const [...response] = await axios.all(makeRequestArr(10, 'https://randomuser.me/api'));
     [...response].map((data) => {
       const { gender, name, location, email, cell } = data.data.results[0];
       const userObj = {
@@ -28,13 +28,24 @@ router.get('/', async (req, res) => {
     console.log('err', err);
     return res.status(404).send({message: 'Users not found'});
   }
+})
 
+router.get('/firstname/:firstname', (req, res) => {
+  const firstName = db.userData.filter(data => {
+    return data.firstname === req.params.firstname;
+  })
+
+  if (firstName.length > 0){
+    return res.status(200).send(...firstName);
+  } else {
+    return res.status(404).send({ message: 'User not found!'});
+  }
 })
 
 router.post('/', (req, res) => {
   try {
     db.userData.push(req.body);
-    return res.status(400).send({message: 'User successfully created!'});
+    return res.status(201).send({message: 'User successfully created!'});
   } catch(err) {
     console.log('err', err);
     return res.status(404).send('title required');
